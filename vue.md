@@ -129,3 +129,111 @@ watch: ,
 })
 ```
 
+
+
+## 3. 컴포넌트
+
+- 화면의 영역을 구분하여 개발할 수 있는 뷰의 기능(재사용성이 올라가서 효율적)
+
+  ```html
+  <html>
+      <div id="app">
+          <app-header></app-header>
+      </div>
+  </html>
+  ```
+
+### 전역 컴포넌트
+
+  - Vue.component('컴포넌트 이름',컴포넌트 내용);
+  - 컴포넌트 내용 부분에 객체를 열어서{} 안에 작성
+  - 대부분 플러그인, 라이브러리 형태로 전역에서 쓸 때 사용
+
+      ``` javascript
+      Vue.component('app-header',{
+                  template: '<h1>Header</h1>'
+              });
+      ```
+
+### 지역 컴포넌트
+
+  - 일반적으로 지역 컴포넌트를 사용
+  - 여러개 사용(복수)하여 s붙음(component's' , method's')
+  - 특정 컴포넌트 하단에 무엇이 오는지 알 수 있음
+  - 인스턴스마다 새로 생성 해야함
+
+      ```javascript
+      new Vue({
+        el: '#app',
+          //지역 컴포넌트 등록 방식
+        components: { //S붙음 (복수)
+            '컴포넌트 이름': 컴포넌트 내용,
+              ''
+      
+        }
+      });
+      ```
+
+### 컴포넌트와 인스턴스의 관계
+
+- 인스턴스 안에 컴포넌트 생성
+- 지역 컴포넌트 : 인스턴스마다 생성
+- 전역 컴포넌트 : 전역에 공통으로 사용(플러그인, 라이브러리)
+
+
+
+## 4. 컴포넌트 통신
+
+### 다른 레벨 통신
+
+- 상위에서 하위로 데이터 내려줌, 프롭스 속성
+
+- 하위에서 상위로 이벤트 올려줌, 이벤트 발생
+
+- <app-header v-bind:프롭스 속성 이름 ="상위 컴포넌트 데이터 이름"></app-header> 
+
+  ```html
+      <div id="app">
+          <app-header v-bind:propsdata ="message"></app-header>
+      </div>
+      <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+      <script>
+          var appHeader = {
+                  template: '<h1>header</h1>',
+                  props: ['propsdata']
+              }
+          new Vue({
+              el: '#app',
+              components: {
+                  'app-header': appHeader
+              },
+              data: {
+                  message: 'hi'
+              }
+  
+          })
+      </script>
+  ```
+  
+- 프롭스(props)
+
+  - 상위 컴포넌트의 속성을 바꾸면 하위 컴포넌트도 받아서 같이 변경됨
+
+- 이벤트 에밋( event emit ) API
+
+  ```javascript
+  var appHeader = {
+      template: '<button v-on:click="passEvent">click me </button>',
+      methods: {
+          passEvent: function() {
+              this.$emit('test');
+          }
+      }
+  }
+  ```
+
+
+
+### 같은 레벨 통신
+
+- 하위 - (event) > 상위 -(props)> 하위
