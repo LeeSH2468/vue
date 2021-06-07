@@ -237,3 +237,46 @@ watch: ,
 ### 같은 레벨 통신
 
 - 하위 - (event) > 상위 -(props)> 하위
+
+
+
+## 5. 뷰 라우터(router)
+
+- 뷰 라이브러리를 이용하여 싱글 페이지 애플리케이션을 구현할 때 사용하는 라이브러리
+
+- 페이지를 이동할 때 사용
+
+- 세팅방법
+
+  - 반드시 vue.js를 먼저 선언
+
+  ```html
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+      <script>
+          // 라우터 인스턴스 생성
+          new VueRouter({
+  			// 라우터 옵션
+          });
+          
+          // 뷰 인스턴스에 라우터 인스턴스 등록
+          new Vue =({
+              el: '#app',
+              router: router
+          });
+      </script>
+  ```
+
+### 뷰 라우터 등록(라우터 옵션)
+
+- routes : 페이지의 정보
+- routes > path : 페이지의 url
+- routes > component : 해당 url에서 표시될 컴포넌트
+  - component (s안붙음) > url은 각 페이지당 1개이기 때문에 단수
+- mode: 'history'
+  - url 주소를 단순하게 변경
+  - ww.000.com/playground/router.html#/login > ww.000.com/login 
+- router-view
+  - 내용이 뿌려지는 부분
+- router-link 
+  - <router-link *to*="/main">이동할 url</router-link>
