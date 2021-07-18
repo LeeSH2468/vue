@@ -167,6 +167,7 @@ watch: ,
         el: '#app',
           //지역 컴포넌트 등록 방식
         components: { //S붙음 (복수)
+            '키':'값',
             '컴포넌트 이름': 컴포넌트 내용,
               ''
       
@@ -200,7 +201,7 @@ watch: ,
       <script>
           var appHeader = {
                   template: '<h1>header</h1>',
-                  props: ['propsdata']
+                  props: ['propsdata'] //배열
               }
           new Vue({
               el: '#app',
@@ -219,7 +220,7 @@ watch: ,
 
   - 상위 컴포넌트의 속성을 바꾸면 하위 컴포넌트도 받아서 같이 변경됨
 
-- 이벤트 에밋( event emit ) API
+- 이벤트 에밋( event emit ) API $emit
 
   ```javascript
   var appHeader = {
@@ -255,13 +256,14 @@ watch: ,
   <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
       <script>
           // 라우터 인스턴스 생성
-          new VueRouter({
+          var router = new VueRouter({
   			// 라우터 옵션
           });
           
           // 뷰 인스턴스에 라우터 인스턴스 등록
           new Vue =({
               el: '#app',
+              //뷰에 정의된 이름 : 설정한 이름(위에 설정한 변수)
               router: router
           });
       </script>
@@ -269,14 +271,167 @@ watch: ,
 
 ### 뷰 라우터 등록(라우터 옵션)
 
-- routes : 페이지의 정보
-- routes > path : 페이지의 url
+- routes : 페이지의 라우팅 정보([배열]로 정의됨. 페이지 갯수만큼 {객체}필요)
+- routes > path : 페이지의 url(path : /login)
 - routes > component : 해당 url에서 표시될 컴포넌트
   - component (s안붙음) > url은 각 페이지당 1개이기 때문에 단수
 - mode: 'history'
-  - url 주소를 단순하게 변경
+  - url 주소를 단순하게 변경(#지우기)
   - ww.000.com/playground/router.html#/login > ww.000.com/login 
 - router-view
-  - 내용이 뿌려지는 부분
+  - 내용(컴포넌트)이 뿌려지는 부분
 - router-link 
   - <router-link *to*="/main">이동할 url</router-link>
+
+
+
+## 6. 액시오스(axios)
+
+### Ajax 
+
+- 비동기
+- 자바스크립트의 비동기 처리 패턴
+  - callback
+  - promise
+  - promise + generator
+  - async & await
+
+### 액시오스
+
+- 뷰에서 권고하는 HTTP통신 라이브러리
+- axios.get('참고할주소')
+- 성공시 : then / 실패시 : catch (프로미스 참고)
+- this
+  - axios로 데이터 받아온 후 this값은 변경됨
+  - 기존 this : 내가 정의한 new Vue(직접 만든 코드)
+  - 변경 this : axios로 받아온 데이터
+  - 해결법 : var vm = this; 로 this를 기존this 정의한 뒤 함수로 사용
+
+
+
+## 7. 뷰 템플릿 문법
+
+- 뷰로 화면을 조작하는 방법 (데이터 바인딩 / 디렉티브) 
+
+### 데이터 바인딩
+
+- 인스턴스에 정의한 속성을 화면에 표시하는 방법(콧수염 괄호)
+
+```html
+<div>{{data}}</div>
+```
+
+- computed (계산된 속성) 컴퓨티드
+
+  -  데이터에 따라 바뀌는 값을 표현할 때 사용
+
+  ```javascript
+  computed: {
+  	doubleNum : function(){
+  		return this.num * 2;
+  	}
+  }
+  ```
+
+
+
+### 디렉티브
+
+- 속성 안에 정의되는 특정 속성값(v- 가 붙음)
+
+```html
+<div v-bind:propsdata ="message"></div>
+```
+
+  ```html
+  <p v-bind:id="uuid" v-bind:class="name">{{num}}</p>
+  <script>
+      new Vue({
+          el:'#app',
+          data: {
+              str: 'hi',
+              num: 10,
+              uuid : 'test123',
+              name : 'text-blue'
+          },
+          computed: {
+              doubleNum : function(){
+                  return this.num * 2;
+              }
+          }
+      });
+  </script>
+  ```
+
+- v-if / v-else
+  - if/else 의 경우 보여짐
+  - 두 태그가 바로 뒤에 붙어있어야함. 사이에 다른태그 있으면 불가
+
+```html
+<!-- 로그인 전 로딩중 -->
+<div v-if="loading">Loading...</div>
+<!-- 로그인성공 -->
+<div v-else>teset user has been logged in</div>
+
+<script>
+data : {
+    loading : true
+}    
+</script>
+```
+
+- v-show와 v-if(false)
+
+  - v-show : 태그는 존재하고 display:none상태
+  - v-if : 화면상 존재하지 않음
+
+- v-model
+
+  - input에 작성하는 태그 실시간으로 받아오기
+
+- v-on
+
+  - v-on:keyup.enter : 엔터칠때만 해당 함수 실행
+
+  ```
+  <input type="text" v-on:keyup.enter="logText">
+  ```
+
+
+
+## 8. 템플릿 문법 실전
+
+###  watch 와 computed
+
+- 공통점 :  데이터에 따라 바뀌는 값을 표현할 때 사용
+
+- watch
+  - 무거운 로직에 많이 사용(계속 받아오기 부담스러운 데이터)
+  - 큰 데이터를 받아올 때 적합
+  - 바뀌기 전,후 값 추적 가능 
+    - tset : function(newValue, oldValue)
+- computed
+  - 대부분 케이스에 적합
+  - 단순한 값, 텍스트의 계산
+
+
+
+## *참고
+### 사용자 정보 테스트서버
+
+- 사용자 정보가 담긴 배열 : https://jsonplaceholder.typicode.com/users/ 
+
+### 라이브러리 사용법(깃)
+
+- star 수 확인(인지도)
+- 커밋 수
+- 컨트리뷰터(라이브러리 관리를 위해 동참한 사람들)
+- 이력 날짜
+
+
+
+### 개발자도구 네트워크패널
+
+- 개발자도구 Network탭
+- Headers : 헤더에 관한 내용
+- Preview : 

@@ -26,13 +26,14 @@
         }
 
         var appContent = {
-            template: '<button v-on:click="addNumber">add</button>',
-            methods: {
-                addNumber: function() {
+            template : '<button v-on:click="addNum">add</button>' ,
+            methods : {
+                addNum: function(){
                     this.$emit('addnum');
                 }
             }
         }
+
         new Vue({
             el: '#app',
             components:{
@@ -45,9 +46,7 @@
                 },
                 logAdd: function () {
                     this.num = this.num + 1
-                    console.log(this.num)
                 }
-
             },
             data: {
                 num: 10
