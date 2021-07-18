@@ -409,14 +409,81 @@ data : {
   - 무거운 로직에 많이 사용(계속 받아오기 부담스러운 데이터)
   - 큰 데이터를 받아올 때 적합
   - 바뀌기 전,후 값 추적 가능 
-    - tset : function(newValue, oldValue)
+    - tset : function(newValue, oldValue){}
 - computed
   - 대부분 케이스에 적합
   - 단순한 값, 텍스트의 계산
 
+### v-bind
+
+- 조건에 따라 클래스 넣기
+
+```html
+<div id="app">
+    <p v-bind:class="errorTextColor">Hello</p>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            // cname: 'blue-text',
+            isError: false
+        },
+        computed: {
+            errorTextColor: function () {
+                // if (isError) {
+                //   return 'warning'
+                // } else {
+                //   return null;
+                // }
+                return this.isError ? 'warning' : null;
+            }
+        }
+    });
+</script>
+```
+
+
+
+## 9. Vue CLI
+
+- 명령어 실행 도구 https://cli.vuejs.org/
+
+- 설치필요(npm)
+
+- 노드, npm 버전 확인 (노드10이상, npm 6이상)
+
+  - 에러 생길 경우 : 관리자 권한이 아니어서 생길 수 있음
+
+  ```
+  npm install -g @vue/cli
+  // 에러해결방법
+  sudo npm install -g @vue/cli
+  ```
+
+### 새로운 프로젝트 설치
+
+- 터미널
+
+- ```
+  vue create '프로젝트 폴더 이름' // 폴더생성
+  > Vue2 선택
+  > 설치 (약1분) 
+  cd vue-cli // 폴더이동
+  npm run serce
+  
+  App.vue 내용삭제
+  vue + tab버튼 > 기본내용 생성
+  src/components/HelloWorld.vue 파일 삭제
+  
+  ```
+
 
 
 ## *참고
+
 ### 사용자 정보 테스트서버
 
 - 사용자 정보가 담긴 배열 : https://jsonplaceholder.typicode.com/users/ 
@@ -434,4 +501,3 @@ data : {
 
 - 개발자도구 Network탭
 - Headers : 헤더에 관한 내용
-- Preview : 
