@@ -28,7 +28,20 @@
 - input 데이터 연결 (data, v-model="")
 - button 기능 설정 (v-on:click="")
   - 저장값 로컬에 저장 
-  - 비우기
+  - 비우기 (this*.*newTodoItem = "";)
 - 로컬에 저장
   - 관리자창 > Application > LocalStorage
 
+- 저장, 비우기 함수 나누기 > 저장하는 함수 안에 clear함수 적용(this.clearInput();)
+- 스타일
+- add버튼 폰트어썸으로 적용
+- < span v-on:click="addTodo">
+- input 태그에 엔터치면 적용되도록 설정
+  - < input v-on:keyup.enter="addTodo" > 
+
+
+
+### 4. TodoList
+
+- ul> li 생성
+- 함수 created : 화면이 생성되자마자 실행
