@@ -95,4 +95,18 @@
   - for > 로컬스토리지 정보 갯수 만큼 반복 ( i < localStorage.length );
   - if > 웹팩데스~ 안나오게하기 (localStorage**.**key(i) !== 'loglevel:webpack-dev-server')
   - 아이템 넣기( this.todoItems.push*(*localStorage**.**key(i)); )
+- li에 연결
+  - v-for="todoItem in todoItems" (v-for = "아이템 in 배열명")
+  - v-bind:key="todoItem" (for로 넣을 키)
+  - (v-for를 쓰면 v-bind키 쓰는것 권장)
+  - {{ todoItem }}으로 출력
+- 삭제버튼 생성
+  - span > i 휴지통
+  - 삭제기능 (v-on:click="removeTodo")
+- li에 index값 넣고 삭제 버튼에서 받아오기
+  - v-for="(todoItem, index) in todoItems"
+  - v-on:click="removeTodo(todoItem, index)"
+  - removeTodo : function(todoItem, index)
+    - 로컬스토리지에서 삭제 (localStorage.removeItem(todoItem));
+    - li삭제 (this.todoItems.splice(index,1))
 
