@@ -110,3 +110,48 @@
     - 로컬스토리지에서 삭제 (localStorage.removeItem(todoItem));
     - li삭제 (this.todoItems.splice(index,1))
 
+
+
+### 5. 할 일 완료 기능
+
+- 체크박스 추가
+  - i 체크
+  - 체크기능 (v-on:click="toggleComplete") - 토클로 체크,해제 기능
+  - toggleComplete 메소드 추가
+
+
+
+## *코드수정
+
+### TodoInput.vue
+
+- 키, 값을 구분하지 않고 넣음.
+
+  - localStorage.setItem(**this**.newTodoItem,**this**.newTodoItem);
+
+  - var obj를 추가해 체크여부(boolean값)으로 상태 확인
+
+    ```JAVASCRIPT
+    var obj = {completed: false, item: this.newTodoItem}
+    값을 JSON
+    ```
+
+  - JSON.stringify
+
+    자바스크립트 값을 스트링(문자열)로 변환해주는 API
+
+    ```javascript
+    localStorage.setItem(this.newTodoItem,JSON.stringify{obj});
+    ```
+
+- addTodo if문 값이 있을때만 되도록 추가
+
+  
+
+### TodoList.vue
+
+- 키값으로 접근
+  - localStorage.key
+
+
+
