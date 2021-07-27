@@ -112,12 +112,25 @@
 
 
 
-### 5. 할 일 완료 기능
+할일 완료 기능
 
 - 체크박스 추가
   - i 체크
   - 체크기능 (v-on:click="toggleComplete") - 토클로 체크,해제 기능
   - toggleComplete 메소드 추가
+  - push에 바로 키값넣음 > 밸류의 item 값으로 변경
+  - 문자열(string)로 넣었기 떄문에 닷
+  - console.log(typeof ~~)  : 뒤에있는 객체의 타입유형
+  - JSON.parse() string을 다시 object로 변경
+
+
+
+### 5. Todofooter
+
+- 전체삭제 버튼
+  - span > Clear All
+  - css입히기
+  - 
 
 
 
@@ -133,17 +146,16 @@
 
     ```JAVASCRIPT
     var obj = {completed: false, item: this.newTodoItem}
-    값을 JSON
     ```
-
+    
   - JSON.stringify
-
+  
     자바스크립트 값을 스트링(문자열)로 변환해주는 API
-
+  
     ```javascript
     localStorage.setItem(this.newTodoItem,JSON.stringify{obj});
     ```
-
+  
 - addTodo if문 값이 있을때만 되도록 추가
 
   
