@@ -117,7 +117,7 @@
 - 체크박스 추가
   - i 체크
   - 체크기능 (v-on:click="toggleComplete") - 토클로 체크,해제 기능
-  - toggleComplete 메소드 추가
+  - toggleComplete 메소드 추가(v-on:click="toggleComplete")
   - push에 바로 키값넣음 > 밸류의 item 값으로 변경
   - 문자열(string)로 넣었기 떄문에 닷
   - console.log(typeof ~~)  : 뒤에있는 객체의 타입유형
@@ -129,12 +129,26 @@
 
 - 전체삭제 버튼
   - span > Clear All
+
   - css입히기
-  - 
+
+  - 클릭기능 (v-on:click="clearTodo")
+
+  - clearTodo정의
+
+    ```javascript
+      methods: {
+        clearTodo: function() {
+          localStorage.clear();
+        }
+      }
+    ```
+
+    
 
 
 
-## *코드수정
+## *코드수정(리팩토링)
 
 ### TodoInput.vue
 
@@ -158,12 +172,90 @@
   
 - addTodo if문 값이 있을때만 되도록 추가
 
+  ```javascript
+  if(this.newTodoItem !== ''){}
+  ```
+  
+  
+  
   
 
 ### TodoList.vue
 
 - 키값으로 접근
   - localStorage.key
+  
+- getItem 으로 값 얻기
+
+  ```javascript
+  localStorage.getItem(localStorage.key(i))
+  ```
 
 
+- 문자열을 객체로 변환
+
+  ```javascript
+  JSON.parse(받아온 값)
+  ```
+
+- 받은 값 넣기
+
+  ```javascript
+  this.todoItems.push()
+  ```
+
+- 출력하는 값을 원하는 키의 값으로 변경
+
+  ```html
+  {{ todoItem.item }}
+  ```
+
+- 체크됐을 때 클래스 추가 ~~줄긋는효과~~ 를 체크 됐을때만 적용(v-bind:class)
+
+  ```javascript
+  <span v-bind:class="{클래스명: 배열.키(boolean값)}"
+  v-bind:class="{textCompleted: todoItem.completed}"
+  ```
+
+- 체크버튼 눌렀을 때 실행
+
+  ```javascript
+  toggleComplete(todoItem, index)
+  ```
+- li에 받아올 값 변경
+
+  ```
+  v-bind:key="todoItem" > todoItem.item
+  ```
+- toggleComplete함수정의
+
+  - 값 받아오기 toggleComplete(todoItem, index)
+  
+  - completed값 받아와서 변경
+  
+    ```javascript
+    todoItem.completed = !todoItem.completed;
+    ```
+  
+  - 로컬스토리지 값 갱신
+  
+    ```javascript
+    localStorage.removeItem(todoItem.item); // 지우기
+    localStorage.setItem(todoItem.item, JSON.stringify); // 다시받기
+    ```
+
+
+
+  
+
+
+
+## 필기
+
+### 값 변환
+
+- 값 넣을 때 : JSON.stringify (값 > 문자열로 변환)
+- 값 받을 때 : JSON.parse(문자열 > object로 변환)
+
+ 
 
