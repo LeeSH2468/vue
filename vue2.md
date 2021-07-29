@@ -244,9 +244,24 @@
     localStorage.setItem(todoItem.item, JSON.stringify); // 다시받기
     ```
 
+- TodoList에도 props추가
 
+  ```
+  props:['propsdata']
+  ```
+
+- v-for로 받아오는 값을 propsdata로 변경
 
   
+
+### App.vue
+
+- created를 app.vue로 이동
+- app.vue에도 목록을 받을 todoItems 배열만들기
+  - 로컬스토리지에 있는 값이 app.vue의 todoItems배열에 들어감(push)
+- app.vue의 TodoList에 propsdata로 데이터 내리기
+  - v-bind:propsdata="todoItems" push받은 값 todoList로보냄
+  - TodoList에도 props추가
 
 
 
