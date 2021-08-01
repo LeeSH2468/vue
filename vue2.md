@@ -176,8 +176,12 @@
   if(this.newTodoItem !== ''){}
   ```
   
-  
-  
+- setItem(다시 불러오는 부분)을 app.vue로 이동
+
+  - 원래 있던 부분 상위(app.vue)로 보내기
+    - this.$emit("이벤트이름",인자1, 인자2)
+    - this.$emit('addTodoItem', this.newTodoItem)
+
   
 
 ### TodoList.vue
@@ -257,13 +261,33 @@
 ### App.vue
 
 - created를 app.vue로 이동
+
 - app.vue에도 목록을 받을 todoItems 배열만들기
   - 로컬스토리지에 있는 값이 app.vue의 todoItems배열에 들어감(push)
+  
 - app.vue의 TodoList에 propsdata로 데이터 내리기
   - v-bind:propsdata="todoItems" push받은 값 todoList로보냄
   - TodoList에도 props추가
+  
+- app.vue의 TodoInput 데이터 받아오기
 
+  - TodoInput에 이벤트에밋 처리 (v-on:'addTodoItem'='addOneItem')
+    - v-on:하위 컴포넌트에서 발생시킨 이벤트 이름 = "현재 컴포넌트의 메소드 이름"
+  - app.vue에 todoItem 하나를 추가하는 메소드 추가(methods: addOneItem:function(){})
+    - this.newTodoItem은 TodoInput에 있을 때 이름
+    - function('새로운 이름')을 지정해준 뒤 변경해준다
+    - todoItems배열에 내용을 넣어줌(push)
 
+  ```
+    methods:{
+      addOneItem: function(todoItem){
+        var obj = {completed: false, item: todoItem};
+            localStorage.setItem(todoItem,JSON.stringify(obj));
+            this.todoItems.push(obj);
+      }
+  ```
+
+  
 
 ## 필기
 
