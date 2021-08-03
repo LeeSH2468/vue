@@ -1,6 +1,7 @@
 <template>
   <div>
-      <ul>
+
+  <transition-group name="list" tag="ul">
         <li v-for="(todoItem ,index) in propsdata" v-bind:key="todoItem.item" class="shadow">
           <i class="checkBtn fas fa-check" v-bind:class="{checkBtnCompleted: todoItem.completed}" v-on:click="toggleComplate(todoItem,index)"></i>
           <span v-bind:class="{textCompleted: todoItem.completed}"> {{ todoItem.item }}</span>
@@ -8,7 +9,7 @@
             <i class="far fa-trash-alt"></i>
           </span>
         </li>
-      </ul>
+    </transition-group>
   </div>
 </template>
 
@@ -16,10 +17,10 @@
 export default {
   props: ['propsdata'],
   methods: {
-    removeTodo: function(todoItem , index) {
+    removeTodo(todoItem , index) {
       this.$emit('removeItem', todoItem , index)
     },
-    toggleComplate: function(todoItem,index){
+    toggleComplate(todoItem,index){
       this.$emit('toggleItem',todoItem,index)
     }
   }
@@ -58,5 +59,14 @@ li {
 .textCompleted {
   text-decoration: line-through;
   color: #b3adad;
+}
+
+/* 리스트 아이템 트렌지션 */
+.list-enter-active, .list-leave-active {
+  transition: all 0.5s;
+}
+.list-enter, .list-leave-to /* .list-leave-active below version 2.1.8 */ {
+  opacity: 0;
+  transform: translateY(30px);
 }
 </style>
