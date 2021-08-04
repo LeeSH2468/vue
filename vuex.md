@@ -105,3 +105,192 @@ getters: {
 <p>{{ this.$store.getters.doubleNumber}}</p>
 ```
 
+
+
+### mutations란?
+
+- state의 값을 변경할 수 있는 유일한 방법이자 메서드
+- 뮤테이션은 `commit()`으로 동작시킨다.
+- 속성메서드를 가짐.
+- 속성메서드의 첫번째 인자는 state
+
+```javascript
+// store.js
+state: { num: 10 },
+mutations: {
+    printNumbers(state) {
+        return state.num
+    },
+    sumNumbers(state, anotherNum) {
+        return state.num + anotherNum;
+    }
+}
+
+// App.vue
+this.$store.commit('printNumbers'); // 10
+this.$store.commit('sumNumbers', 20); // 30
+```
+
+
+
+### mutations의 commit() 형식
+
+- state를 변경하기 위해 mutations를 동작시킬 때 인지(payload)를 전달할 수 있음
+- 여러 값을 전할 때는 객채화시켜서 전달 가능(키: 값 형태)
+
+```javascript
+// store.js
+state: { storeNum: 10 },
+mutations: {
+    modifyState(state, payload) {
+        console.log(payload.str);
+        return state.storeNum += payload.num;
+    }
+}
+
+// App.vue
+this.$store.commit('modifyState',{
+    str: 'test',
+    num: 20
+})
+```
+
+
+
+### mutations를 사용하는 이유
+
+- state로 직접 접근하지 않고 mutations를 사용
+- 여러 개의 컴포넌트에서 아래와 같이 state값을 변경하는 경우 어느 컴포넌트에서 해당 state를 변경했는지 추적하기 어렵다.
+
+```javascript
+methods: {
+    increaseCounter() { this.$store.state.counter++; }
+}
+```
+
+- 특정 시점에 어떤 컴포넌트가 state를 접근하여 변경한건지 확인하기 어렵기 때문
+- 따라서, 뷰의 반응성을 거스르지 않게 명시적으로 상태 변화를 수행. (반응성, 디버깅, 테스팅 혜택)
+
+
+
+### actions란?
+
+- 비동기 처리 로직을 선언하는 메서드. 비동기 로직을 담당하는 mutations
+- 데이터요청, [Promise](https://joshua1988.github.io/web-development/javascript/promise-for-beginners/), ES6 async과 같은 [비동기 처리](https://joshua1988.github.io/web-development/javascript/javascript-asynchronous-operation/)는 모두 actions에 선언
+- `dispatch()`로 동작시킨다 
+
+```javascript
+// store.js
+state: {
+    num:10
+},
+mutations: {
+    doubleNumber(state) {
+        state.num * 2;
+    }
+},
+actions: {
+	delayDoubleNumber(context) { // context로 store의 메서드와 속성에 접근
+        context.commit('doubleNumber');
+    }        
+}
+
+// App.vue
+this.$store.dispatch('delayDoubleNumber');
+```
+
+
+
+- actions 비동기 코드 예제1
+
+```javascript
+// store.js
+state: {
+    addCounter(state){
+        state.counter++
+    }
+},
+actions: {
+	delayedAddCounter(context) { // context로 store의 메서드와 속성에 접근
+        setTimeout(() => context.commit('addCounter'), 2000);
+    }        
+}
+
+// App.vue
+methods: {
+    incrementCounter() {
+        this.$store.dispatch('delayedAddCounter');
+    }
+}
+```
+
+- actions 비동기 코드 예제2
+
+```javascript
+// store.js
+mutations: {
+    setDate(state, fetchedData) {
+        state.product = fetchedData;
+    }
+},
+actions: {
+	fetchProductData(context){
+        return axios.get('https://domain.com/test')
+        			.then(response => context.commit('setData', response));
+    }
+}
+
+// App.vue
+methods: {
+    getProduct() {
+        this.$store.dispatch('fetchProductData');
+    }
+}
+```
+
+
+
+## 헬퍼함수(Helper)
+
+- 각 속성들을 더 쉽게 사용하는 방법
+- store에 있는 4가지 속성을 간편하게 코딩하는 방법
+  - state -> mapState
+  - getters -> mapGetters
+  - mutations -> mapMutations
+  - actions -> mapActions
+
+
+
+### 헬퍼 사용법
+
+- 헬퍼를 사용하고자하는 vue파일에서 아래와 같이 해당 헬퍼를 로딩
+
+```javascript
+// App.vue
+import { mapState } from 'vuex'
+import { mapGetters } from 'vuex'
+import { mapMutations } from 'vuex'
+import { mapActions } from 'vuex'
+
+export default {
+    computed() {...mapstate(['num']), ...mapGetters(['countedNum']) },
+    methods: {...mapMutations(['clickBtn']), ...mapActions(['asyncClickBtn']) }
+}
+```
+
+- `...` 는 ES6 Object Spread Operator의 약자이다
+
+  - 다른 함수의 값을 그대로 불러올 때 사용
+
+  ```javascript
+  let test1 = {
+      num: 1,
+      name: 'test'
+  }
+  
+  let testParent = {
+      color: 'red'
+      ...test1
+  }
+  ```
+
