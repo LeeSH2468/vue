@@ -1,10 +1,6 @@
 <template>
   <div>
-    <p v-for="item in fetchedAsk"> 
-      <a v-bind:href="item.url">
-        {{ item.title }} 
-      </a> 
-    </p>
+    <div v-for="item in fetchedAsk"> {{ item.title }} </div>
   </div>
 </template>
 
