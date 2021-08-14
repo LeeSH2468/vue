@@ -1,17 +1,17 @@
 <template>
   <div id="app">
-test
+    <tool-bar></tool-bar>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-
+import ToolBar from './components/ToolBar.vue'
 export default {
-  methods:{
-    fetchData(){
-      console.log('hellog')
-    }
-  }
+  components: { 
+    ToolBar
+     },
+
 }
 </script>
 
