@@ -1,11 +1,12 @@
-import { fetchNewsList, fetchJobsList, fetchAskList, fetchUserInfo, fetchcommentItem } from '../api/index'
+import { fetchNewsList, fetchJobsList, fetchAskList, fetchUserInfo, fetchcommentItem,fetchList } from '../api/index'
 
 
 export default {
     FETCH_NEWS(context) {
         fetchNewsList()
             .then(response => {
-                context.commit('SET_NEWS', response.data)
+                context.commit('SET_NEWS', response.data);
+                return response;
             })
             .catch(error => console.log(error))
     },
@@ -36,5 +37,13 @@ export default {
                 commit('SET_ITEM', data);
             })
             .catch(error => console.log(error));
+    },
+    FETCH_LIST({ commit }, pageName) {
+        fetchList(pageName)
+            .then(({ data }) => {
+                commit('SET_LIST', data)
+            })
+            .catch(error => console.log(error));
+
     }
 }
