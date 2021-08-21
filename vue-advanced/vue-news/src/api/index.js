@@ -13,17 +13,37 @@ function fetchNewsList() {
 function fetchJobsList() {
     return axios.get(`${config.baseUrl}jobs/1.json`);
 }
-function fetchAskList() {
-    return axios.get(`${config.baseUrl}ask/1.json`);
+async function fetchAskList() {
+    try {
+        const response = axios.get(`${config.baseUrl}ask/1.json`);
+        return response
+    } catch (error) {
+        console.log(error)
+    }
 }
 function fetchList(pageName) {
-    return axios.get(`${config.baseUrl}${pageName}/1.json`);
+    try {
+        const response = axios.get(`${config.baseUrl}${pageName}/1.json`);
+        return response
+    } catch (error) {
+        console.log(error)
+    }
 }
 function fetchUserInfo(username) {
-    return axios.get(`${config.baseUrl}user/${username}.json`);
+    try {
+        const response = axios.get(`${config.baseUrl}user/${username}.json`);
+        return response
+    } catch (error) {
+        console.log(error)
+    }
 }
 function fetchcommentItem(id) {
-    return axios.get(`${config.baseUrl}item/${id}.json`);
+    try {
+        const response = axios.get(`${config.baseUrl}item/${id}.json`);
+        return response
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 

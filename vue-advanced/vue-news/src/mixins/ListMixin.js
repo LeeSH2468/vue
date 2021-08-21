@@ -1,6 +1,9 @@
 import bus from '../utils/bus.js';
 
 export default {
+  mounted(){
+    bus.$emit('end:spinner');
+  },
     // 재사용할 컴포넌트 옵션
     created() {
         // bus.$emit('start:spinner');
